@@ -61,17 +61,19 @@
   .reassure{font-size:.86rem;color:var(--muted);display:flex;gap:18px;flex-wrap:wrap}
   .reassure span{display:inline-flex;gap:6px;align-items:center}
 
-  /* Device card */
-  .device{background:linear-gradient(180deg,var(--card),#0f1830);border:1px solid var(--line);border-radius:18px;
-    padding:22px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
-  .lcd{background:#04121a;border:1px solid #12313f;border-radius:10px;padding:16px;font-family:"SF Mono",ui-monospace,Menlo,monospace;color:#5eead4;
-    box-shadow:inset 0 0 40px rgba(34,211,238,.08)}
-  .lcd .row{display:flex;justify-content:space-between;font-size:.9rem;padding:3px 0}
-  .lcd .big{font-size:1.05rem;color:#a7f3d0;font-weight:700;letter-spacing:.04em}
-  .ports{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
-  .port{background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;padding:10px 8px;text-align:center;font-size:.72rem;color:var(--muted)}
-  .port b{display:block;color:var(--ink);font-size:.85rem;margin-top:2px}
-  .port .pin{width:7px;height:7px;border-radius:50%;background:var(--brand-2);margin:0 auto 6px;box-shadow:0 0 8px var(--brand-2)}
+  /* Transparent device photo floating on a soft spotlight + real LCD screenshot */
+  .device{position:relative;max-width:420px;margin:0 auto;padding:6px}
+  .device::before{content:"";position:absolute;inset:0% 4% 6%;z-index:0;
+    background:radial-gradient(closest-side,rgba(59,130,246,.30),rgba(34,211,238,.12) 55%,transparent 75%);
+    filter:blur(4px)}
+  .devshot{position:relative;z-index:1;filter:drop-shadow(0 26px 34px rgba(0,0,0,.6))}
+  .device img.dev{width:100%;height:auto;display:block}      /* keep native aspect — no stretch */
+  .device figcaption{position:relative;z-index:1;text-align:center;color:var(--muted);
+    font-size:.8rem;font-weight:600;letter-spacing:.01em;padding:14px 4px 0}
+  /* Screenshot mapped onto the TPB2L's black LCD (region is ~4:3, matching 320x240) */
+  .device .screen{position:absolute;left:16.75%;top:25%;width:64.5%;height:48.4%;
+    overflow:hidden;border-radius:2px}
+  .device .screen img{width:100%;height:100%;display:block;object-fit:cover}  /* fills 4:3, no stretch */
 
   /* Spec snapshot */
   .specstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
@@ -161,21 +163,17 @@
       </div>
     </div>
 
-    <div class="device" aria-hidden="true">
-      <div class="lcd">
-        <div class="row big"><span>MODBUS GW</span><span>● RUN</span></div>
-        <div class="row"><span>ETH</span><span>192.168.1.50</span></div>
-        <div class="row"><span>WiFi</span><span>plant-scada</span></div>
-        <div class="row"><span>Timeout</span><span>1000 ms</span></div>
-        <div class="row"><span>Requests</span><span>14,203 ok</span></div>
+    <figure class="device">
+      <div class="devshot">
+        <img class="dev" src="img/tpb2l-top.png" width="400" height="400"
+             alt="Tibbo Modbus Gateway in the TPB2L enclosure, front view with the 320x240 LCD status screen and four-key sensor keypad" />
+        <div class="screen">
+          <img src="img/lcd_screenshot_20260716_153856.jpg" width="320" height="240"
+               alt="Live gateway screen: Modbus Device Server, Ethernet 192.168.1.125, Wi-Fi 192.168.1.105, and four Modbus device slots (192.168.1.111 connected, three Not Connected)" />
+        </div>
       </div>
-      <div class="ports">
-        <div class="port"><span class="pin"></span>CH1<b>TCP :502</b></div>
-        <div class="port"><span class="pin"></span>CH2<b>RTU 485</b></div>
-        <div class="port"><span class="pin"></span>CH3<b>ASCII</b></div>
-        <div class="port"><span class="pin"></span>CH4<b>TCP :503</b></div>
-      </div>
-    </div>
+      <figcaption>Actual on-device display — Tibbo Modbus Device Server running in the TPB2L enclosure</figcaption>
+    </figure>
   </div>
 </section>
 
