@@ -129,6 +129,17 @@
   .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
   .chip{background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:.82rem;color:var(--muted)}
   .chip b{color:var(--ink)}
+
+  /* Web interface / screenshots */
+  .shots{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+  @media(max-width:900px){.shots{grid-template-columns:1fr}}
+  .shot{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:.15s border-color,.15s transform}
+  .shot:hover{border-color:var(--brand);transform:translateY(-2px)}
+  .shot .frame{background:var(--bg);border-bottom:1px solid var(--line);padding:0}
+  .shot img{width:100%;height:auto;display:block}
+  .shot figcaption{padding:16px 18px}
+  .shot figcaption b{display:block;color:#fff;font-size:1rem;margin-bottom:4px}
+  .shot figcaption span{color:var(--muted);font-size:.9rem}
 </style>
 </head>
 <body>
@@ -138,6 +149,7 @@
     <a class="brand" href="#top"><span class="logo">⇄</span> Tibbo Modbus Gateway</a>
     <nav class="nav-links">
       <a href="#features">Features</a>
+      <a href="#web">Web interface</a>
       <a href="#specs">Specifications</a>
       <a href="#audience">Who it's for</a>
       <a href="AppBlocks%20_%20bp_modbus_gateway_lcd_v11.pdf" download="Tibbo-Modbus-Gateway-Datasheet.pdf">Datasheet</a>
@@ -211,6 +223,47 @@
       <div class="card"><div class="ic">📶</div><h3>Ethernet &amp; Wi-Fi</h3><p>Wire it into your control network or drop it onto plant Wi-Fi. DHCP or static addressing on both interfaces.</p></div>
       <div class="card"><div class="ic">🖥️</div><h3>Live LCD status</h3><p>Read IP, link state, and traffic health right on the device — no laptop needed for a quick health check in the field.</p></div>
       <div class="card"><div class="ic">🛠️</div><h3>Programmable platform</h3><p>Built on Tibbo's TPP2W(G2) and AppBlocks. When your application needs a tweak, the logic is open to extend — not a black box.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Web interface -->
+<section id="web">
+  <div class="wrap">
+    <div class="eyebrow">Configure from any browser</div>
+    <h2>A built-in Device Console — no software to install.</h2>
+    <p class="muted" style="max-width:62ch;margin-top:-6px">Point a browser at the gateway's IP and you get a password-protected web console for network setup, per-channel serial parameters, and live diagnostics. Import and export the full configuration to roll it out across a fleet.</p>
+    <div class="shots">
+      <figure class="shot">
+        <div class="frame">
+          <img src="img/mb1.png" width="1920" height="1080" loading="lazy"
+               alt="Device Console Settings page, General tab: Ethernet DHCP enabled, IP 192.168.1.125, netmask 255.255.255.0, gateway 192.168.1.1, with Save, Refresh, Export and Import buttons" />
+        </div>
+        <figcaption>
+          <b>Network settings</b>
+          <span>Ethernet and Wi-Fi addressing — DHCP or static IP, netmask, and gateway, all from the General tab.</span>
+        </figcaption>
+      </figure>
+      <figure class="shot">
+        <div class="frame">
+          <img src="img/mb2.png" width="1920" height="1080" loading="lazy"
+               alt="Device Console Settings page, CH1 tab: channel 1 listening port 502, Tibbit 05 baud rate 38400, flow control disabled, parity None, 8 data bits" />
+        </div>
+        <figcaption>
+          <b>Per-channel serial setup</b>
+          <span>Set the listening port, baud rate, parity, data bits, and flow control independently for each of the four channels.</span>
+        </figcaption>
+      </figure>
+      <figure class="shot">
+        <div class="frame">
+          <img src="img/mb3.png" width="1920" height="1080" loading="lazy"
+               alt="Device Console Log page, Debug tab showing timestamped entries: TCP servers listening on ports 502-505 and Modbus RTU clients initialized" />
+        </div>
+        <figcaption>
+          <b>Live logs &amp; diagnostics</b>
+          <span>Watch the debug and event logs in real time — TCP listeners, RTU client init, and traffic — to verify every link is up.</span>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
