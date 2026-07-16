@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tibbo Modbus Gateway — Bridge Modbus TCP, RTU &amp; ASCII</title>
+<meta name="description" content="Programmable Tibbo Modbus Gateway on the TPP2W(G2) platform. Route Modbus TCP, RTU, and ASCII across 4 channels over Ethernet and Wi-Fi, with an on-device LCD status screen." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230a66c2'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='white' font-family='Arial'%3E%E2%87%84%3C/text%3E%3C/svg%3E" />
+<style>
+  :root{
+    --bg:#0b1220; --bg-soft:#111a2e; --card:#141f38; --line:#243352;
+    --ink:#eef3fb; --muted:#9fb0cc; --brand:#3b82f6; --brand-2:#22d3ee;
+    --ok:#34d399; --warn:#fbbf24; --maxw:1120px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .muted{color:var(--muted)}
+  h1,h2,h3{line-height:1.15;margin:0 0 .5em;letter-spacing:-.02em}
+  h1{font-size:clamp(2rem,4.5vw,3.3rem)}
+  h2{font-size:clamp(1.5rem,3vw,2.1rem)}
+  section{padding:72px 0;border-top:1px solid var(--line)}
+  .eyebrow{color:var(--brand-2);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;margin-bottom:14px}
+
+  /* Buttons */
+  .btn{display:inline-flex;align-items:center;gap:.5em;padding:13px 22px;border-radius:10px;font-weight:700;
+    border:1px solid transparent;cursor:pointer;transition:.15s transform,.15s box-shadow,.15s background}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-primary{background:linear-gradient(180deg,var(--brand),#2563eb);color:#fff;box-shadow:0 8px 24px -8px rgba(59,130,246,.7)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--brand)}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:20;background:rgba(11,18,32,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
+  .brand .logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:grid;place-items:center;color:#fff;font-weight:900}
+  .nav-links{display:flex;gap:26px;align-items:center}
+  .nav-links a{color:var(--muted);font-weight:600;font-size:.95rem}
+  .nav-links a:hover{color:var(--ink)}
+  .nav .btn{padding:9px 16px}
+  @media(max-width:820px){.nav-links a:not(.btn){display:none}}
+
+  /* Hero */
+  .hero{padding:84px 0 72px;background:
+    radial-gradient(900px 420px at 78% -10%,rgba(34,211,238,.16),transparent 60%),
+    radial-gradient(700px 400px at 10% 10%,rgba(59,130,246,.18),transparent 55%)}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:34px}}
+  .badge{display:inline-flex;gap:8px;align-items:center;background:var(--bg-soft);border:1px solid var(--line);
+    padding:6px 12px;border-radius:999px;font-size:.82rem;color:var(--muted);margin-bottom:18px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(52,211,153,.2)}
+  .lead{font-size:1.12rem;color:var(--muted);max-width:44ch;margin:0 0 26px}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+  .reassure{font-size:.86rem;color:var(--muted);display:flex;gap:18px;flex-wrap:wrap}
+  .reassure span{display:inline-flex;gap:6px;align-items:center}
+
+  /* Device card */
+  .device{background:linear-gradient(180deg,var(--card),#0f1830);border:1px solid var(--line);border-radius:18px;
+    padding:22px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7)}
+  .lcd{background:#04121a;border:1px solid #12313f;border-radius:10px;padding:16px;font-family:"SF Mono",ui-monospace,Menlo,monospace;color:#5eead4;
+    box-shadow:inset 0 0 40px rgba(34,211,238,.08)}
+  .lcd .row{display:flex;justify-content:space-between;font-size:.9rem;padding:3px 0}
+  .lcd .big{font-size:1.05rem;color:#a7f3d0;font-weight:700;letter-spacing:.04em}
+  .ports{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
+  .port{background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;padding:10px 8px;text-align:center;font-size:.72rem;color:var(--muted)}
+  .port b{display:block;color:var(--ink);font-size:.85rem;margin-top:2px}
+  .port .pin{width:7px;height:7px;border-radius:50%;background:var(--brand-2);margin:0 auto 6px;box-shadow:0 0 8px var(--brand-2)}
+
+  /* Spec snapshot */
+  .specstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media(max-width:760px){.specstrip{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .stat b{display:block;font-size:1.7rem;color:#fff;letter-spacing:-.02em}
+  .stat span{color:var(--muted);font-size:.9rem}
+
+  /* Feature grid */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;transition:.15s border-color,.15s transform}
+  .card:hover{border-color:var(--brand);transform:translateY(-2px)}
+  .card .ic{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-size:1.2rem;
+    background:rgba(59,130,246,.14);border:1px solid rgba(59,130,246,.3);margin-bottom:14px}
+  .card h3{font-size:1.12rem}
+  .card p{color:var(--muted);font-size:.95rem;margin:0}
+
+  /* Audience columns */
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:900px){.cols{grid-template-columns:1fr}}
+  .col{background:linear-gradient(180deg,var(--bg-soft),transparent);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .col h3{font-size:1.05rem;color:var(--brand-2)}
+  .col ul{margin:12px 0 0;padding-left:18px;color:var(--muted)}
+  .col li{margin:7px 0}
+
+  /* Spec table */
+  .table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:12px;border:1px solid var(--line)}
+  .table th{background:var(--bg-soft);text-align:left;padding:14px 16px;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+  .table td{padding:13px 16px;border-top:1px solid var(--line);font-size:.94rem;vertical-align:top}
+  .table td:first-child{color:var(--muted);width:34%;font-weight:600}
+  .table-scroll{overflow-x:auto}
+
+  /* CTA / form */
+  .cta-final{background:
+    radial-gradient(700px 300px at 80% 0,rgba(34,211,238,.14),transparent 60%),var(--bg-soft)}
+  .form-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}
+  @media(max-width:860px){.form-grid{grid-template-columns:1fr}}
+  form{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px}
+  .field{margin-bottom:14px}
+  label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px;font-weight:600}
+  input,select,textarea{width:100%;padding:11px 13px;border-radius:9px;background:var(--bg);border:1px solid var(--line);color:var(--ink);font:inherit}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(59,130,246,.2)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:520px){.two{grid-template-columns:1fr}}
+  form .btn{width:100%;justify-content:center;margin-top:6px}
+  .privacy{font-size:.78rem;color:var(--muted);margin-top:10px;text-align:center}
+
+  /* Footer */
+  footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:.88rem}
+  .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .chip{background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:.82rem;color:var(--muted)}
+  .chip b{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="logo">⇄</span> Tibbo Modbus Gateway</a>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#specs">Specifications</a>
+      <a href="#audience">Who it's for</a>
+      <a href="#quote" class="btn btn-primary">Request a Quote</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+<section class="hero" style="border-top:none">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="badge"><span class="dot"></span> Built on the Tibbo TPP2W(G2) programmable platform</span>
+      <h1>Bridge every Modbus network — TCP, RTU &amp; ASCII — on one gateway.</h1>
+      <p class="lead">Connect serial field devices to your SCADA, PLC, or cloud without rewiring or rewriting protocol logic. Four independent Modbus channels, Ethernet and Wi-Fi, and a live LCD status screen — configurable in minutes.</p>
+      <div class="cta-row">
+        <a href="#quote" class="btn btn-primary">Request a Quote →</a>
+        <a href="#specs" class="btn btn-ghost">View Full Specs</a>
+      </div>
+      <div class="reassure">
+        <span>✓ Field-configurable, no firmware rebuild</span>
+        <span>✓ Ethernet + Wi-Fi</span>
+        <span>✓ Application engineer support</span>
+      </div>
+    </div>
+
+    <div class="device" aria-hidden="true">
+      <div class="lcd">
+        <div class="row big"><span>MODBUS GW</span><span>● RUN</span></div>
+        <div class="row"><span>ETH</span><span>192.168.1.50</span></div>
+        <div class="row"><span>WiFi</span><span>plant-scada</span></div>
+        <div class="row"><span>Timeout</span><span>1000 ms</span></div>
+        <div class="row"><span>Requests</span><span>14,203 ok</span></div>
+      </div>
+      <div class="ports">
+        <div class="port"><span class="pin"></span>CH1<b>TCP :502</b></div>
+        <div class="port"><span class="pin"></span>CH2<b>RTU 485</b></div>
+        <div class="port"><span class="pin"></span>CH3<b>ASCII</b></div>
+        <div class="port"><span class="pin"></span>CH4<b>TCP :503</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Spec snapshot -->
+<section id="snapshot">
+  <div class="wrap">
+    <div class="specstrip">
+      <div class="stat"><b>4</b><span>Independent Modbus channels</span></div>
+      <div class="stat"><b>3</b><span>Protocols: TCP · RTU · ASCII</span></div>
+      <div class="stat"><b>2</b><span>Uplinks: Ethernet + Wi-Fi</span></div>
+      <div class="stat"><b>LCD</b><span>On-device live status</span></div>
+    </div>
+    <div class="chips">
+      <span class="chip"><b>RS-232 / RS-485</b> serial (Tibbit 05)</span>
+      <span class="chip">Configurable <b>baud, parity, data bits, flow control</b></span>
+      <span class="chip"><b>DHCP</b> or static IP</span>
+      <span class="chip">Per-channel <b>listening port</b> &amp; device mapping</span>
+      <span class="chip"><b>Password</b>-protected config</span>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="wrap">
+    <div class="eyebrow">Why engineers choose it</div>
+    <h2>Protocol translation that just works on the plant floor.</h2>
+    <p class="muted" style="max-width:60ch;margin-top:-6px">Point a Modbus TCP master at a legacy RS-485 slave, or expose serial meters to a cloud gateway. The routing, framing, and timeout handling are done for you.</p>
+    <div class="grid" style="margin-top:28px">
+      <div class="card"><div class="ic">⇄</div><h3>Any-to-any Modbus routing</h3><p>Route requests and replies between Modbus TCP, Modbus RTU, and Modbus ASCII masters and slaves — mix and match per channel.</p></div>
+      <div class="card"><div class="ic">🔀</div><h3>4 concurrent channels</h3><p>Each channel has its own listening port, protocol, serial settings, and mapped target devices — run four segregated links at once.</p></div>
+      <div class="card"><div class="ic">🔌</div><h3>Serial done right</h3><p>RS-232 and RS-485 via the Tibbit 05 module, with independent baud rate, parity, data bits, and flow control per port.</p></div>
+      <div class="card"><div class="ic">📶</div><h3>Ethernet &amp; Wi-Fi</h3><p>Wire it into your control network or drop it onto plant Wi-Fi. DHCP or static addressing on both interfaces.</p></div>
+      <div class="card"><div class="ic">🖥️</div><h3>Live LCD status</h3><p>Read IP, link state, and traffic health right on the device — no laptop needed for a quick health check in the field.</p></div>
+      <div class="card"><div class="ic">🛠️</div><h3>Programmable platform</h3><p>Built on Tibbo's TPP2W(G2) and AppBlocks. When your application needs a tweak, the logic is open to extend — not a black box.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Audience -->
+<section id="audience" style="background:var(--bg-soft)">
+  <div class="wrap">
+    <div class="eyebrow">One page, three stakeholders</div>
+    <h2>Answers for everyone in the decision.</h2>
+    <div class="cols" style="margin-top:28px">
+      <div class="col">
+        <h3>Controls / Automation Engineer</h3>
+        <ul>
+          <li>Bridge legacy RS-485 devices to Modbus TCP masters</li>
+          <li>Per-channel protocol, port, and serial parameters</li>
+          <li>Configurable Modbus timeout for slow slaves</li>
+          <li>On-device LCD for fast field diagnostics</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Integrator / OEM</h3>
+        <ul>
+          <li>Programmable AppBlocks logic you can extend</li>
+          <li>Consistent Tibbo hardware you can standardize on</li>
+          <li>Ethernet + Wi-Fi covers wired and retrofit sites</li>
+          <li>Reusable across multiple client deployments</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Plant / Project Manager</h3>
+        <ul>
+          <li>Cut integration time — no custom protocol code</li>
+          <li>Retrofit existing equipment instead of replacing it</li>
+          <li>Application engineer support from Tibbo</li>
+          <li>One SKU handles TCP, RTU, and ASCII sites</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Specs -->
+<section id="specs">
+  <div class="wrap">
+    <div class="eyebrow">Specifications</div>
+    <h2>Technical snapshot</h2>
+    <p class="muted" style="margin-top:-6px">Confirm exact model configuration and certifications for your region with our engineering team before you spec.</p>
+    <div class="table-scroll" style="margin-top:22px">
+      <table class="table">
+        <thead><tr><th>Parameter</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td>Platform</td><td>Tibbo TPP2W(G2) programmable device, Zephyr runtime, configured with Tibbo AppBlocks</td></tr>
+          <tr><td>Function</td><td>Modbus gateway — routes requests and replies between Modbus TCP, Modbus ASCII, and Modbus RTU masters and slaves</td></tr>
+          <tr><td>Modbus channels</td><td>4 independent channels, each with its own listening port, protocol, and mapped devices</td></tr>
+          <tr><td>Serial interface</td><td>RS-232 / RS-485 via Tibbit 05; configurable baud rate, data bits, parity, and flow control per port</td></tr>
+          <tr><td>Network</td><td>Ethernet (DHCP or static IP, netmask, gateway) and Wi-Fi (SSID, security, DHCP or static)</td></tr>
+          <tr><td>Display</td><td>On-device LCD status screen — device name, network, and link/traffic status</td></tr>
+          <tr><td>Configuration</td><td>Device name, owner name, per-channel IP/port mapping, Modbus timeout, password protection</td></tr>
+          <tr><td>Firmware / logic</td><td>Tibbo AppBlocks project (extensible); this build: Modbus Gateway with LCD, v0.1.x</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted" style="font-size:.82rem;margin-top:14px">Power, environmental ratings, dimensions, and regional certifications depend on the final hardware configuration — request the datasheet for the exact figures for your build.</p>
+  </div>
+</section>
+
+<!-- Final CTA + form -->
+<section id="quote" class="cta-final">
+  <div class="wrap form-grid">
+    <div>
+      <div class="eyebrow">Get moving</div>
+      <h2>Request a quote or a technical call.</h2>
+      <p class="muted">Tell us the protocols you're bridging and how many nodes you need to connect. An application engineer will come back with pricing, lead time, and a recommended configuration — usually within one business day.</p>
+      <div class="chips" style="margin-top:18px">
+        <span class="chip">✓ Quote &amp; lead time</span>
+        <span class="chip">✓ Config recommendation</span>
+        <span class="chip">✓ Eval unit availability</span>
+      </div>
+      <p class="muted" style="margin-top:22px">Prefer email? <a href="mailto:sales@tibbo.com?subject=Modbus%20Gateway%20enquiry" style="color:var(--brand-2);font-weight:600">sales@tibbo.com</a></p>
+    </div>
+
+    <!-- Static-host friendly. Replace the Formspree ID (or swap action) to receive submissions.
+         With no backend configured it falls back to opening the visitor's mail client. -->
+    <form action="https://formspree.io/f/your-form-id" method="POST"
+          onsubmit="return handleQuote(this)">
+      <div class="two">
+        <div class="field"><label for="name">Name</label><input id="name" name="name" required autocomplete="name"></div>
+        <div class="field"><label for="company">Company</label><input id="company" name="company" required autocomplete="organization"></div>
+      </div>
+      <div class="field"><label for="email">Work email</label><input id="email" type="email" name="email" required autocomplete="email"></div>
+      <div class="field">
+        <label for="protocols">What are you bridging?</label>
+        <select id="protocols" name="protocols">
+          <option>Modbus RTU ↔ Modbus TCP</option>
+          <option>Modbus ASCII ↔ Modbus TCP</option>
+          <option>Serial (RS-485) to SCADA / cloud</option>
+          <option>Multiple / not sure yet</option>
+        </select>
+      </div>
+      <div class="field"><label for="app">Application &amp; node count (optional)</label><textarea id="app" name="application" rows="3" placeholder="e.g. 12 power meters on RS-485 to a Modbus TCP SCADA head end"></textarea></div>
+      <button class="btn btn-primary" type="submit">Send request →</button>
+      <p class="privacy">We'll only use your details to respond to this enquiry.</p>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>© <span id="yr">2026</span> Tibbo Modbus Gateway · Built on Tibbo TPP2W(G2)</div>
+    <div><a href="#top">Back to top ↑</a> · <a href="mailto:sales@tibbo.com">Contact sales</a></div>
+  </div>
+</footer>
+
+<script>
+  // Fill year without relying on build-time value
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // If no form backend is wired up yet, gracefully fall back to a mailto so the
+  // page still "converts" on a static GitHub Pages host.
+  function handleQuote(form){
+    if(form.action.indexOf('your-form-id') !== -1){
+      var b = encodeURIComponent(
+        "Name: "+form.name.value+"\nCompany: "+form.company.value+
+        "\nEmail: "+form.email.value+"\nBridging: "+form.protocols.value+
+        "\nApplication: "+form.application.value);
+      window.location.href = "mailto:sales@tibbo.com?subject="+
+        encodeURIComponent("Modbus Gateway quote request")+"&body="+b;
+      return false; // don't POST to the placeholder endpoint
+    }
+    return true; // real endpoint configured → let it submit
+  }
+</script>
+</body>
+</html>
