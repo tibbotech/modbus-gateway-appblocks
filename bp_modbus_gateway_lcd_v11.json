@@ -1,5 +1,4 @@
 {
-    "id": "6a39eff04c5e43f616c05056",
     "name": "bp_modbus_gateway_lcd_v11",
     "device": "TPP2W(G2)",
     "description": "Tibbo Modbus Gateways route Modbus requests and replies between Modbus TCP, Modbus ASCII, and Modbus RTU masters and slaves. ",
@@ -636,6 +635,74 @@
                             "MAX": 32,
                             "INITIALIZE": "A",
                             "DEFAULT": ""
+                        }
+                    },
+                    {
+                        "id": "stg_setting",
+                        "settings": {
+                            "ID": "mrsngcugqal4d8mbm5b",
+                            "GENERAL": "",
+                            "ADVANCED": "",
+                            "SETTINGID": "MBPROTO",
+                            "NAME": "Modbus Protocol",
+                            "STORAGE": "E",
+                            "SETTINGTYPE": "string",
+                            "DATATYPE": "S",
+                            "MIN": "",
+                            "MAX": 16,
+                            "INITIALIZE": "A",
+                            "DEFAULT": "modbus_RTU"
+                        }
+                    },
+                    {
+                        "id": "stg_setting",
+                        "settings": {
+                            "ID": "mrsnhb0scm1a8bvzmk8",
+                            "GENERAL": "",
+                            "ADVANCED": "",
+                            "SETTINGID": "MBPROTO1",
+                            "NAME": "Modbus Protocol",
+                            "STORAGE": "E",
+                            "SETTINGTYPE": "string",
+                            "DATATYPE": "S",
+                            "MIN": "",
+                            "MAX": 16,
+                            "INITIALIZE": "A",
+                            "DEFAULT": "modbus_RTU"
+                        }
+                    },
+                    {
+                        "id": "stg_setting",
+                        "settings": {
+                            "ID": "mrsnk3d2km8f0utpmen",
+                            "GENERAL": "",
+                            "ADVANCED": "",
+                            "SETTINGID": "MBPROTO2",
+                            "NAME": "Modbus Protocol",
+                            "STORAGE": "E",
+                            "SETTINGTYPE": "string",
+                            "DATATYPE": "S",
+                            "MIN": "",
+                            "MAX": 16,
+                            "INITIALIZE": "A",
+                            "DEFAULT": "modbus_RTU"
+                        }
+                    },
+                    {
+                        "id": "stg_setting",
+                        "settings": {
+                            "ID": "mrsnk64dwndmmao2pkp",
+                            "GENERAL": "",
+                            "ADVANCED": "",
+                            "SETTINGID": "MBPROTO3",
+                            "NAME": "Modbus Protocol",
+                            "STORAGE": "E",
+                            "SETTINGTYPE": "string",
+                            "DATATYPE": "S",
+                            "MIN": "",
+                            "MAX": 16,
+                            "INITIALIZE": "A",
+                            "DEFAULT": "modbus_RTU"
                         }
                     }
                 ]
@@ -1656,6 +1723,66 @@
                             "DEFAULT": "",
                             "POLL_INTERVAL": ""
                         }
+                    },
+                    {
+                        "id": "variable",
+                        "settings": {
+                            "ID": "mrsngd51vwvxg880tp",
+                            "VARNAME": "MBPROTO",
+                            "DATATYPE": "string",
+                            "NAME": "Modbus Protocol",
+                            "FEATURE": "mrsngcugqal4d8mbm5b",
+                            "FEATURE_SETTING": "SETTINGID",
+                            "MINIMUM": "0",
+                            "MAXIMUM": 16,
+                            "DEFAULT": "modbus_RTU",
+                            "POLL_INTERVAL": ""
+                        }
+                    },
+                    {
+                        "id": "variable",
+                        "settings": {
+                            "ID": "mrsnhbf5ntuj36gjis",
+                            "VARNAME": "MBPROTO1",
+                            "DATATYPE": "string",
+                            "NAME": "Modbus Protocol",
+                            "FEATURE": "mrsnhb0scm1a8bvzmk8",
+                            "FEATURE_SETTING": "SETTINGID",
+                            "MINIMUM": "0",
+                            "MAXIMUM": 16,
+                            "DEFAULT": "modbus_RTU",
+                            "POLL_INTERVAL": ""
+                        }
+                    },
+                    {
+                        "id": "variable",
+                        "settings": {
+                            "ID": "mrsnk3rv2aouwwwisbn",
+                            "VARNAME": "MBPROTO2",
+                            "DATATYPE": "string",
+                            "NAME": "Modbus Protocol",
+                            "FEATURE": "mrsnk3d2km8f0utpmen",
+                            "FEATURE_SETTING": "SETTINGID",
+                            "MINIMUM": "0",
+                            "MAXIMUM": 16,
+                            "DEFAULT": "modbus_RTU",
+                            "POLL_INTERVAL": ""
+                        }
+                    },
+                    {
+                        "id": "variable",
+                        "settings": {
+                            "ID": "mrsnk6f8b0ihzpqebl9",
+                            "VARNAME": "MBPROTO3",
+                            "DATATYPE": "string",
+                            "NAME": "Modbus Protocol",
+                            "FEATURE": "mrsnk64dwndmmao2pkp",
+                            "FEATURE_SETTING": "SETTINGID",
+                            "MINIMUM": "0",
+                            "MAXIMUM": 16,
+                            "DEFAULT": "modbus_RTU",
+                            "POLL_INTERVAL": ""
+                        }
                     }
                 ]
             }
@@ -1956,7 +2083,7 @@
                                         "NAME": "",
                                         "CODE_ID": "",
                                         "LOCATION": "{{feature.settings.socket}}_sock_data_arrival",
-                                        "CODE": "    /* TCP port 505 -> RTU interface 3 */\n    modbus_gw_sock_recv(client_sock, sock_data, len, &mb_client_rtu_{{feature.settings.port_index}});\n",
+                                        "CODE": "    /* TCP port 505 -> RTU interface 3 */\n    modbus_gw_sock_recv(client_sock, sock_data, len, &mb_client_serial_{{feature.settings.port_index}});\n",
                                         "CONDITION": ""
                                     }
                                 },
@@ -4260,6 +4387,36 @@
                                         "STATUS": "",
                                         "READONLY": "0"
                                     }
+                                },
+                                {
+                                    "id": "luis_item",
+                                    "settings": {
+                                        "ID": "mrsngtjl2dfuada1g5s",
+                                        "SETTINGID": "mrsngcugqal4d8mbm5b",
+                                        "NAME": "Modbus Protocol",
+                                        "CONTROL": "STATIC",
+                                        "OPTIONS": [
+                                            {
+                                                "id": "luis_item_option",
+                                                "settings": {
+                                                    "ID": "mrsngtjlh4081zfotnb",
+                                                    "LABEL": "ASCII",
+                                                    "VALUE": "modbus_ASCII"
+                                                }
+                                            },
+                                            {
+                                                "id": "luis_item_option",
+                                                "settings": {
+                                                    "ID": "mrsnibi7endso6nouk5",
+                                                    "LABEL": "RTU",
+                                                    "VALUE": "modbus_RTU"
+                                                }
+                                            }
+                                        ],
+                                        "VALIDATION": "",
+                                        "STATUS": "",
+                                        "READONLY": "0"
+                                    }
                                 }
                             ]
                         }
@@ -4501,6 +4658,36 @@
                                                     "ID": "mnpo70af81smumxfmdh",
                                                     "LABEL": "8 Bits",
                                                     "VALUE": "1"
+                                                }
+                                            }
+                                        ],
+                                        "VALIDATION": "",
+                                        "STATUS": "",
+                                        "READONLY": "0"
+                                    }
+                                },
+                                {
+                                    "id": "luis_item",
+                                    "settings": {
+                                        "ID": "mrsnj0p2gitisatwnh8",
+                                        "SETTINGID": "mrsnhb0scm1a8bvzmk8",
+                                        "NAME": "Modbus Protocol",
+                                        "CONTROL": "STATIC",
+                                        "OPTIONS": [
+                                            {
+                                                "id": "luis_item_option",
+                                                "settings": {
+                                                    "ID": "mrsnj0p2q55mawfonin",
+                                                    "LABEL": "ASCII",
+                                                    "VALUE": "modbus_ASCII"
+                                                }
+                                            },
+                                            {
+                                                "id": "luis_item_option",
+                                                "settings": {
+                                                    "ID": "mrsnjt1pyyn703hmgw",
+                                                    "LABEL": "RTU",
+                                                    "VALUE": "modbus_RTU"
                                                 }
                                             }
                                         ],
@@ -4756,6 +4943,36 @@
                                         "STATUS": "",
                                         "READONLY": "0"
                                     }
+                                },
+                                {
+                                    "id": "luis_item",
+                                    "settings": {
+                                        "ID": "mrsnl2h5w4t562y5xja",
+                                        "SETTINGID": "mrsnk3d2km8f0utpmen",
+                                        "NAME": "Modbus Protocol",
+                                        "CONTROL": "STATIC",
+                                        "OPTIONS": [
+                                            {
+                                                "id": "luis_item_option",
+                                                "settings": {
+                                                    "ID": "mrsnl2h53p2ccdv3us2",
+                                                    "LABEL": "ASCII",
+                                                    "VALUE": "modbus_ASCII"
+                                                }
+                                            },
+                                            {
+                                                "id": "luis_item_option",
+                                                "settings": {
+                                                    "ID": "mrsnlec0vqg6nwgnpf",
+                                                    "LABEL": "RTU",
+                                                    "VALUE": "modbus_RTU"
+                                                }
+                                            }
+                                        ],
+                                        "VALIDATION": "",
+                                        "STATUS": "",
+                                        "READONLY": "0"
+                                    }
                                 }
                             ]
                         }
@@ -4997,6 +5214,36 @@
                                                     "ID": "mnpo9k6ob1zls4cpgyi",
                                                     "LABEL": "8 Bits",
                                                     "VALUE": "1"
+                                                }
+                                            }
+                                        ],
+                                        "VALIDATION": "",
+                                        "STATUS": "",
+                                        "READONLY": "0"
+                                    }
+                                },
+                                {
+                                    "id": "luis_item",
+                                    "settings": {
+                                        "ID": "mrsnlmqt94u9ewi54yl",
+                                        "SETTINGID": "mrsnk64dwndmmao2pkp",
+                                        "NAME": "Modbus Protocol",
+                                        "CONTROL": "STATIC",
+                                        "OPTIONS": [
+                                            {
+                                                "id": "luis_item_option",
+                                                "settings": {
+                                                    "ID": "mrsnlmqtvnt7p3rr84f",
+                                                    "LABEL": "ASCII",
+                                                    "VALUE": "modbus_ASCII"
+                                                }
+                                            },
+                                            {
+                                                "id": "luis_item_option",
+                                                "settings": {
+                                                    "ID": "mrsnlwv8c8zzec8iunu",
+                                                    "LABEL": "RTU",
+                                                    "VALUE": "modbus_RTU"
                                                 }
                                             }
                                         ],
@@ -7709,6 +7956,65 @@
                 "TARGET_FEATURE": "mq7u31qt6wcwpx6m4pr",
                 "TARGET_PORT": "set_value",
                 "ARGUMENTS": []
+            }
+        },
+        {
+            "id": "snmp_agent",
+            "settings": {
+                "ID": "mroqj23vb8t4nsetaei",
+                "GENERAL": "",
+                "SYSTEM": "",
+                "V3": "",
+                "ADVANCED": "",
+                "ENABLED": "0",
+                "PORT": "161",
+                "READ_COMMUNITY": "public",
+                "WRITE_COMMUNITY": "private",
+                "OBJECTS": [],
+                "SYSDESCR": "Tibbo Device",
+                "SYSOBJECTID": "1.3.6.1.4.1.20738",
+                "SYSCONTACT": "",
+                "SYSNAME": "",
+                "SYSLOCATION": "",
+                "V3_ENABLED": "0",
+                "USERS": [],
+                "LOG_LEVEL": "4"
+            }
+        },
+        {
+            "id": "linked_setting",
+            "settings": {
+                "ID": "mrsngcvjc0sxtczdhmv",
+                "SETTINGID": "PROTOCOL",
+                "LINKEDSETTING": "mrsngcugqal4d8mbm5b",
+                "FEATURE": "mmctya0vu238mobc7fj"
+            }
+        },
+        {
+            "id": "linked_setting",
+            "settings": {
+                "ID": "mrsnhb2b976cv3333p7",
+                "SETTINGID": "PROTOCOL",
+                "LINKEDSETTING": "mrsnhb0scm1a8bvzmk8",
+                "FEATURE": "mmctz7vsp9ikaeyf7y"
+            }
+        },
+        {
+            "id": "linked_setting",
+            "settings": {
+                "ID": "mrsnk3eaa28x5xadbea",
+                "SETTINGID": "PROTOCOL",
+                "LINKEDSETTING": "mrsnk3d2km8f0utpmen",
+                "FEATURE": "mmivza2pszfofbgyrjm"
+            }
+        },
+        {
+            "id": "linked_setting",
+            "settings": {
+                "ID": "mrsnk655u9ktzc4wvkr",
+                "SETTINGID": "PROTOCOL",
+                "LINKEDSETTING": "mrsnk64dwndmmao2pkp",
+                "FEATURE": "mmivzgp27swu9ee1nuv"
             }
         }
     ]
