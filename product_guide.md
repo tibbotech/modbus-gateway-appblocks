@@ -431,7 +431,7 @@ Click **Connect** to start polling Modbus data.
 <a id="5842-livechart"></a>
 ##### 5.8.4.2 Live Chart [↑](#bookmarks "Back to Bookmarks")
 
-![PowerHud Modbus Tester live chart result](https://raw.githubusercontent.com/tibbotech/modbus-gateway-appblocks/refs/heads/main/assets/powerhud_modbus_tester_result_livechart.png)
+![PowerHud Modbus Tester live chart result](https://raw.githubusercontent.com/tibbotech/modbus-gateway-appblocks/refs/heads/main/assets/powerhud_modbus_tester_result_livechart_rev2.png)
 
 <br>
 
