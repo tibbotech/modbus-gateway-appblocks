@@ -423,6 +423,8 @@ Click **Connect** to start polling Modbus data.
 <a id="584-check-result"></a>
 #### 5.8.4 Check Result [↑](#bookmarks "Back to Bookmarks")
 
+Wait approximately 5 seconds, then check the polled Modbus data.
+
 <a id="5841-table"></a>
 ##### 5.8.4.1 Table [↑](#bookmarks "Back to Bookmarks")
 
