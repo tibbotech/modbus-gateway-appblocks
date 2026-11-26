@@ -140,7 +140,7 @@ Open `http://<device-ip>` in a supported web browser.
 <a id="41-home"></a>
 ### 4.1 Home [↑](#bookmarks "Back to Bookmarks")
 
-On the **Home** page, general gateway information is displayed.
+The **Home** page shows you general information about the gateway.
 
 ![Device Console Home page](https://raw.githubusercontent.com/tibbotech/modbus-gateway-appblocks/refs/heads/main/assets/tcp_modbus_gateway_home_rev2.png)
 
@@ -153,14 +153,14 @@ On the **Home** page, general gateway information is displayed.
 <a id="42-settings"></a>
 ### 4.2 Settings [↑](#bookmarks "Back to Bookmarks")
 
-The **Settings** tab contains the General, Wi-Fi, Modbus channel, and system
-configuration groups.
+The **Settings** page contains tabs for **General**, **Wi-Fi**, and the four
+Modbus channels.
 
 <a id="421-general"></a>
 #### 4.2.1 General [↑](#bookmarks "Back to Bookmarks")
 
-In the **General** group, DHCP can be enabled or a static Ethernet IP address,
-netmask, and gateway can be configured.
+In the **General** tab, you can enable DHCP or configure a static Ethernet IP
+address, netmask, and gateway.
 
 ![Device Console General settings](https://raw.githubusercontent.com/tibbotech/modbus-gateway-appblocks/refs/heads/main/assets/tcp_modbus_gateway_settings_general.png)
 
@@ -171,22 +171,21 @@ netmask, and gateway can be configured.
 <a id="422-wi-fi"></a>
 #### 4.2.2 Wi-Fi [↑](#bookmarks "Back to Bookmarks")
 
-Wi-Fi is available on the `TCP Modbus Gateway`. To connect to an existing
-wireless network, the correct SSID, security type, and password must be
-provided.
+To connect the `TCP Modbus Gateway` to a wireless network, enter its SSID,
+security type, and password in the **Wi-Fi** tab.
 
 > **NOTE:**
-> DHCP can be used, or a static IP address, netmask, and gateway can be configured.
+> You can use DHCP or configure a static IP address, netmask, and gateway.
 
 ![Device Console Wi-Fi settings](https://raw.githubusercontent.com/tibbotech/modbus-gateway-appblocks/refs/heads/main/assets/tcp_modbus_gateway_settings_wifi.png)
 
 <a id="423-modbus-channels"></a>
 #### 4.2.3 Modbus channels [↑](#bookmarks "Back to Bookmarks")
 
-The Device Console has one configuration group for each channel: **CH1**,
-**CH2**, **CH3**, and **CH4**.
+The Settings page has a tab for each Modbus channel: **CH1**, **CH2**, **CH3**,
+and **CH4**.
 
-The **CH1** configuration group is shown below.
+The **CH1** tab is shown below.
 
 > **NOTE:**
 > - Channels **CH2**, **CH3**, and **CH4** are configured in the same way, each with its own listening port and RTU settings.
@@ -199,8 +198,8 @@ The **CH1** configuration group is shown below.
 <a id="43-log"></a>
 ### 4.3 Log [↑](#bookmarks "Back to Bookmarks")
 
-On the Log page, device log messages stored in Flash are shown in the
-following groups:
+The **Log** page shows device log messages stored in Flash in the following
+groups:
 
 - **Debug:** Detailed runtime diagnostic messages, including startup, network,
   storage, SNTP, and Modbus communication events and errors.
@@ -221,7 +220,7 @@ following groups:
 <a id="44-system"></a>
 ### 4.4 System [↑](#bookmarks "Back to Bookmarks")
 
-The **System** tab contains the **Commands** and **Time** groups.
+The **System** page contains the **Commands** and **Time** groups.
 
 <a id="441-commands"></a>
 #### 4.4.1 Commands [↑](#bookmarks "Back to Bookmarks")
@@ -309,8 +308,7 @@ Using your preferred web browser, navigate to [http://192.168.1.40](http://192.1
 <a id="54-configure-network-in-general"></a>
 ### 5.4 Configure General [↑](#bookmarks "Back to Bookmarks")
 
-The **Ethernet** connection for the local network is configured in the
-**General** group.
+Configure the device’s **Ethernet** connection in the **General** tab.
 
 > **NOTE:**
 > - This example uses the **default** Ethernet configuration.
@@ -321,9 +319,8 @@ The **Ethernet** connection for the local network is configured in the
 <a id="55-configure-wi-fi"></a>
 ### 5.5 Configure Wi-Fi [↑](#bookmarks "Back to Bookmarks")
 
-For this example, configure Wi-Fi by entering the SSID and password for the
-wireless network in the **Wi-Fi** group. Leave all other Wi-Fi settings at
-their default values.
+For this example, enter the wireless network’s SSID and password in the
+**Wi-Fi** tab. Leave the other Wi-Fi settings at their default values.
 
 > **NOTE:**
 > For details about Wi-Fi settings, see [Section 4.2.2](#422-wi-fi).
@@ -368,7 +365,7 @@ Restart the device so that the new configuration is applied. Allow up to
 <a id="571-verify-wi-fi-connection"></a>
 #### 5.7.1 Verify Wi-Fi Connection [↑](#bookmarks "Back to Bookmarks")
 
-After the device has restarted, open the **Wi-Fi** group and select
+After the device has restarted, open the **Wi-Fi** tab and select
 **Refresh**. Confirm that a Wi-Fi IP address is displayed..
 
 ![Device Console Wi-Fi IP address after reboot](https://raw.githubusercontent.com/tibbotech/modbus-gateway-appblocks/refs/heads/main/assets/tcp_modbus_gateway_settings_wifi_after_reboot_example_rev2.png)
