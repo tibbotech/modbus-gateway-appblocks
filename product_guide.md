@@ -129,7 +129,11 @@ requests without a request from a Modbus TCP client.
 ## 4. Device Console [↑](#bookmarks "Back to Bookmarks")
 
 The browser-based configuration interface is called the **Device Console**.
-Open `http://<device-ip>` in a supported web browser.
+Open `http://<device-ip>` in a supported web browser. The navigation menu
+contains **pages** such as **Home**, **Settings**, **Log**, and **System**.
+The **Settings** page contains tabs for **General**, **Wi-Fi**, and **CH1–CH4**.
+In this guide, “page” refers to an item in the navigation menu, while “tab”
+refers to a selectable tab within a page.
 
 > **NOTE:**
 > The browser-based configuration interface is called the **Device Console**. It
@@ -153,8 +157,8 @@ The **Home** page shows you general information about the gateway.
 <a id="42-settings"></a>
 ### 4.2 Settings [↑](#bookmarks "Back to Bookmarks")
 
-The **Settings** page contains tabs for **General**, **Wi-Fi**, and the four
-Modbus channels.
+The **Settings** page contains the **General** and **Wi-Fi** tabs, plus one tab
+for each of the four Modbus channels: **CH1**, **CH2**, **CH3**, and **CH4**.
 
 <a id="421-general"></a>
 #### 4.2.1 General [↑](#bookmarks "Back to Bookmarks")
@@ -198,14 +202,14 @@ The **CH1** tab is shown below.
 <a id="43-log"></a>
 ### 4.3 Log [↑](#bookmarks "Back to Bookmarks")
 
-The **Log** page shows device log messages stored in Flash in the following
-groups:
+The **Log** page shows device log messages stored in Flash in the **Debug**
+and **Log** tabs:
 
 - **Debug:** Detailed runtime diagnostic messages, including startup, network,
   storage, SNTP, and Modbus communication events and errors.
 - **Log:** Reboot logs.
 
-> **NOTE:** For each group, the entries show a timestamp and recorded value.
+> **NOTE:** Each tab shows entries with a timestamp and recorded value.
 
 <a id="431-debug"></a>
 #### 4.3.1 Debug [↑](#bookmarks "Back to Bookmarks")
@@ -220,25 +224,25 @@ groups:
 <a id="44-system"></a>
 ### 4.4 System [↑](#bookmarks "Back to Bookmarks")
 
-The **System** page contains the **Commands** and **Time** groups.
+The **System** page contains the **Commands** and **Time** tabs.
 
 <a id="441-commands"></a>
 #### 4.4.1 Commands [↑](#bookmarks "Back to Bookmarks")
 
-Let's take a look at the **Commands** group first. It provides controls to
-restart the device or initialize its stored settings.
+The **Commands** tab provides controls to restart the device or initialize
+its stored settings.
 
 - **Reboot:** Restarts the gateway and applies the stored network and channel
   configuration.
 - **Initialize Settings:** Restores the application settings to their default
   values. **A reboot is Required**.
 
-![Device Console System Commands group](https://raw.githubusercontent.com/tibbotech/modbus-gateway-appblocks/refs/heads/main/assets/tcp_modbus_gateway_system_commands.png)
+![Device Console System Commands tab](https://raw.githubusercontent.com/tibbotech/modbus-gateway-appblocks/refs/heads/main/assets/tcp_modbus_gateway_system_commands.png)
 
 <a id="442-time"></a>
 #### 4.4.2 Time [↑](#bookmarks "Back to Bookmarks")
 
-The **Time** group shows the device time, time zone, daylight-saving status,
+The **Time** tab shows the device time, time zone, daylight-saving status,
 and last SNTP synchronization time.
 
 The following controls are available:
@@ -251,7 +255,7 @@ The following controls are available:
 
 > **NOTE:** If Sync with SNTP Server does not succeed, check the device’s network connection and make sure it has internet access.
 
-![Device Console System Time group](https://raw.githubusercontent.com/tibbotech/modbus-gateway-appblocks/refs/heads/main/assets/tcp_modbus_gateway_system_time.png)
+![Device Console System Time tab](https://raw.githubusercontent.com/tibbotech/modbus-gateway-appblocks/refs/heads/main/assets/tcp_modbus_gateway_system_time.png)
 
 <br><br>
 
